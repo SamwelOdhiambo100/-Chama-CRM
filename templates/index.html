@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chama Manager</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f0f8f0; color: #333; margin: 20px; }
+        h1, h2 { color: #2e8b57; text-align: center; }
+        form { background-color: #e8f5e9; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+        input[type="text"], input[type="number"], button { padding: 10px; margin-bottom: 10px; border: 1px solid #c8e6c9; border-radius: 4px; width: calc(100% - 22px); box-sizing: border-box; }
+        button { background-color: #4caf50; color: white; cursor: pointer; transition: background-color 0.3s ease; }
+        button:hover { background-color: #43a047; }
+        .success { background-color: #a5d6a7; color: #1b5e20; padding: 10px; border-radius: 4px; margin-bottom: 10px; }
+        .error { background-color: #ffcdd2; color: #b71c1c; padding: 10px; border-radius: 4px; margin-bottom: 10px; }
+        ul { list-style-type: none; padding: 0; }
+        li { background-color: #c8e6c9; padding: 10px; margin-bottom: 5px; border-radius: 4px; transition: transform 0.2s ease; }
+        li:hover { transform: scale(1.02); }
+        .container {width: 60%; margin: 0 auto;}
+        .fade-in {animation: fadeIn 1s;}
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 20px;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body class="fade-in">
+    <div class="container">
+    <h1>🌱 Chama Manager - Onestone Kamulu Group 🌿</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h2>Add Member 👤</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="add_member">
+        <input type="text" name="member_name" placeholder="Enter Member Name">
+        <button type="submit">Add Member</button>
+    </form>
+
+    <h2>Record Contribution 💰</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="record_contribution">
+        <input type="text" name="contribution_name" placeholder="Member Name">
+        <input type="number" name="amount" placeholder="Amount">
+        <input type="text" name="date" placeholder="YYYY-MM-DD">
+        <button type="submit">Record Contribution</button>
+    </form>
+
+    <h2>View Balance 💵</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="view_balance">
+        <input type="text" name="balance_name" placeholder="Member Name">
+        <button type="submit">View Balance</button>
+    </form>
+
+    <h2>All Balances 📊</h2>
+    <ul>
+        {% for name, balance in members.items() %}
+            <li>{{ name }}: {{ balance }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Contribution History 📜</h2>
+    <ul>
+        {% for contribution in contributions %}
+            <li>{{ contribution.member }}: {{ contribution.amount }} on {{ contribution.date }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Member Progress 📈</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Member</th>
+                <th>Balance</th>
+                <th>Expected</th>
+                <th>Progress</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, status in member_statuses.items() %}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>{{ status.balance }}</td>
+                    <td>{{ status.expected }}</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: {{ status.progress }}%; background-color: {{ status.color }};">
+                                {{ status.progress|round(2) }}%
+                            </div>
+                        </div>
+                    </td>
+                    <td style="color: {{ status.color }};">{{ status.status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
+
