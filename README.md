@@ -1,4 +1,4 @@
-# -Chama-CRM
+# ChamaCRM
 # Chama Manager
 
 A simple Python application to manage informal savings groups (Chamas). Track member contributions, balances, and history.
@@ -12,8 +12,8 @@ A simple Python application to manage informal savings groups (Chamas). Track me
 
 ## Getting Started
 
-1.  **Clone the repository:** `git clone [repository URL]`
-2.  **Run the application:** `python chama_manager.py`
+1.  **Clone the repository:** `git clone https://github.com/SamwelOdhiambo100/ChamaCRM.git `
+2.  **Run the application:** `python chamacrm.py`
 
 ## Usage
 
